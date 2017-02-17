@@ -88,7 +88,7 @@ class ResultSetWrapper(
             constructor.parameters.forEach params@ {
                 if ( columnName.equals(it.name) || camelCaseName.equals(it.name) ) {
                     val cls = classForName(it.type.javaType.typeName)
-                    val annOrNull = cls?.getDeclaredAnnotation(EnumMappingField::class.java) ?: null
+                    val annOrNull = cls?.getDeclaredAnnotation(EnumMappingField::class.java)
                     annOrNull?.let { ann ->
                         cls ?: throw IllegalStateException()
                         val dbValue =
@@ -101,6 +101,7 @@ class ResultSetWrapper(
                                     getByType(columnName, String::class.java)
                             }
                         val valuesMethod = cls.getDeclaredMethod("values")
+                        @Suppress("UNCHECKED_CAST")
                         val list = valuesMethod.invoke(null) as Array<Any>
                         list.forEach { enumValue ->
                             val field = enumValue.javaClass.getDeclaredField(ann.fieldName)
@@ -164,11 +165,11 @@ class ResultSetWrapper(
             "java.util.Date" -> return Date(this.getDate(name).time)
             "java.time.ZonedDateTime" -> {
                 val ts = this.getTimestamp(name)
-                return ts?.let { it.toInstant().atZone(ZoneId.systemDefault()) } ?: null
+                return ts?.let { it.toInstant().atZone(ZoneId.systemDefault()) }
             }
             "java.time.LocalDateTime" -> {
                 val ts = this.getTimestamp(name)
-                return ts?.let { it.toLocalDateTime().atZone(ZoneId.systemDefault()).toLocalDateTime() } ?: null
+                return ts?.let { it.toLocalDateTime().atZone(ZoneId.systemDefault()).toLocalDateTime() }
             }
             "java.sql.Blob" -> return this.getBlob(name)
             "java.sql.Clob" -> return this.getClob(name)
