@@ -17,14 +17,20 @@ open class UpdateParameterBuilder {
     public val nameList:List<String>
         get() = _nameList.toList()
 
+    protected val _setAsList = HashMap<String,String>()
+    public val setAsList:HashMap<String, String>
+        get() {return _setAsList}
+
     protected val _setList = arrayListOf<(ParameterMapper)->Unit>()
-
-
 
     fun parameterMapper(): ParameterMapper.()->Unit {
         return {
            _setList.forEach { it(this) }
         }
+    }
+
+    fun setAs(name:String, value:String) {
+      _setAsList += (name to value)
     }
 
     fun set(name:String, value:Int) {
@@ -67,6 +73,17 @@ open class UpdateParameterBuilder {
         _setList.add({ m -> m.set(name, value) })
     }
 
+    fun set(name:String, value: BigDecimal) {
+        _nameList.add(name)
+        _setList.add({ m -> m.set(name, value) })
+    }
+
+    fun set(name:String, value: URL) {
+        _nameList.add(name)
+        _setList.add({ m -> m.set(name, value) })
+    }
+
+
     fun setAsciiStream(name:String, value: InputStream) {
         _nameList.add(name)
         _setList.add({ m -> m.setAsciiStream(name, value) })
@@ -75,11 +92,6 @@ open class UpdateParameterBuilder {
     fun setAsciiStream(name:String, value: InputStream, length:Int) {
         _nameList.add(name)
         _setList.add({ m -> m.setAsciiStream(name, value, length) })
-    }
-
-    fun set(name:String, value: BigDecimal) {
-        _nameList.add(name)
-        _setList.add({ m -> m.set(name, value) })
     }
 
     fun setBinaryStream(name:String, value: InputStream) {
@@ -240,7 +252,7 @@ open class UpdateParameterBuilder {
     }
     fun set(name:String, value:Timestamp, cal:Calendar) {
         _nameList.add(name)
-        _setList.add({ m -> m.set(name, value,cal) })
+        _setList.add({ m -> m.set(name, value, cal) })
     }
     fun setTimestamp(name:String, value:java.util.Date) {
         _nameList.add(name)
@@ -271,9 +283,4 @@ open class UpdateParameterBuilder {
         _nameList.add(name)
         _setList.add({ m -> m.setTimestamp(name, value, cal) })
     }
-    fun set(name:String, value: URL) {
-        _nameList.add(name)
-        _setList.add({ m -> m.set(name, value) })
-    }
-
 }
