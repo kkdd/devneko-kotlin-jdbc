@@ -1,17 +1,18 @@
 package net.devneko.kjdbc
 
+import java.sql.*
+
 class ColumnNameMapper
 (
-    var selectColumns: String
+    var _selectColumns: String
 )
 {
-    fun get():String {
-        return selectColumns
-    }
+    public val selectColumns:String
+        get() {return _selectColumns}
 
     fun AS(name:String, value:String) {
       val columnNameRegex = Regex(":" + name)
       val columnNameReplace = value + " AS " + name
-      selectColumns = columnNameRegex.replace(selectColumns, columnNameReplace)
+      _selectColumns = columnNameRegex.replace(selectColumns, columnNameReplace)
     }
 }
