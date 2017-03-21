@@ -17,6 +17,80 @@ class ParameterMapper
         val statement: PreparedStatement
 )
 {
+    fun AS(name:String, value:String) {
+        statement.setString(getIndex(name), value)
+    }
+
+    fun AS(name:String, value:Int) {
+        statement.setInt(getIndex(name), value)
+    }
+    fun AS(name:String, value:Long) {
+        statement.setLong(getIndex(name), value)
+    }
+    fun AS(name:String, value:Short) {
+        statement.setShort(getIndex(name), value)
+    }
+    fun AS(name:String, value:Byte) {
+        statement.setByte(getIndex(name), value)
+    }
+    fun AS(name:String, value:ByteArray) {
+        statement.setBytes(getIndex(name), value)
+    }
+    fun AS(name:String, value:()->ByteArray) {
+        statement.setRowId(getIndex(name), value)
+    }
+    fun AS(name:String, value:Boolean) {
+        statement.setBoolean(getIndex(name), value)
+    }
+    fun AS(name:String, value: Array) {
+        statement.setArray(getIndex(name), value)
+    }
+    fun AS(name:String, value: BigDecimal) {
+        statement.setBigDecimal(getIndex(name), value)
+    }
+    fun AS(name:String, value: Date) {
+        statement.setDate(getIndex(name), value)
+    }
+    fun AS(name:String, value: Date, cal: Calendar) {
+        statement.setDate(getIndex(name), value, cal)
+    }
+    fun AS(name:String, value: Instant) {
+        val date = java.sql.Date(java.util.Date.from(value).time)
+        statement.setDate(getIndex(name), date)
+    }
+    fun AS(name:String, value: java.util.Date) {
+        val date = Date(value.time)
+        statement.setDate(getIndex(name), date)
+    }
+    fun AS(name:String, value: ZonedDateTime) {
+        val date = Date(java.util.Date.from(value.toInstant()).time)
+        statement.setDate(getIndex(name), date)
+    }
+    fun AS(name:String, value: Double) {
+        statement.setDouble(getIndex(name), value)
+    }
+    fun AS(name:String, value: Float) {
+        statement.setFloat(getIndex(name), value)
+    }
+    fun AS(name:String, value: Ref) {
+        statement.setRef(getIndex(name), value)
+    }
+    fun AS(name:String, value: RowId) {
+        statement.setRowId(getIndex(name), value)
+    }
+    fun AS(name:String, value: Time) {
+        statement.setTime(getIndex(name), value)
+    }
+    fun AS(name:String, value: Timestamp) {
+        statement.setTimestamp(getIndex(name), value)
+    }
+    fun AS(name:String, value: Timestamp, cal: Calendar) {
+        statement.setTimestamp(getIndex(name), value, cal)
+    }
+    fun AS(name:String, value: URL) {
+        statement.setURL(getIndex(name), value)
+    }
+
     fun set(name:String, value:Int) {
         statement.setInt(getIndex(name), value)
     }
